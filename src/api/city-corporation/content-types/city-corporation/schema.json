@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "city_corporations",
+  "info": {
+    "singularName": "city-corporation",
+    "pluralName": "city-corporations",
+    "displayName": "City Corporation",
+    "description": "City Corporations under Districts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "bnName": {
+      "type": "string"
+    },
+    "district": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::district.district",
+      "inversedBy": "cityCorporations"
+    },
+    "zones": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::zone.zone",
+      "mappedBy": "cityCorporation"
+    }
+  }
+}

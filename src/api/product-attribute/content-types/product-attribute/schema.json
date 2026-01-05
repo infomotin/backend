@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_attributes",
+  "info": {
+    "singularName": "product-attribute",
+    "pluralName": "product-attributes",
+    "displayName": "Product Attribute",
+    "description": "Product attributes like Size, Color, Material"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["Size", "Color", "Material", "Custom"],
+      "required": true
+    },
+    "values": {
+      "type": "json",
+      "description": "Array of possible values"
+    }
+  }
+}

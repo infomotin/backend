@@ -52,6 +52,18 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::supplier.supplier"
+    },
+    "description": {
+      "type": "text"
+    },
+    "attributes": {
+      "type": "json",
+      "description": "Product variant attributes (size, color, etc.)"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
     }
   }
 }

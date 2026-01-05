@@ -1,0 +1,113 @@
+{
+  "kind": "singleType",
+  "collectionName": "system_settings",
+  "info": {
+    "singularName": "system-setting",
+    "pluralName": "system-settings",
+    "displayName": "System Settings",
+    "description": "Global application settings and configuration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "default": "RefuelOS"
+    },
+    "siteIcon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "siteLogo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "primaryColor": {
+      "type": "string",
+      "default": "#6366f1"
+    },
+    "secondaryColor": {
+      "type": "string",
+      "default": "#8b5cf6"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "currencySymbol": {
+      "type": "string",
+      "default": "$"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::country.country"
+    },
+    "division": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::division.division"
+    },
+    "district": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::district.district"
+    },
+    "upazila": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::upazila.upazila"
+    },
+    "cityCorporation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::city-corporation.city-corporation"
+    },
+    "zone": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::zone.zone"
+    },
+    "zipCode": {
+      "type": "string"
+    },
+    "address1": {
+      "type": "string"
+    },
+    "address2": {
+      "type": "string"
+    },
+    "timezone": {
+      "type": "string",
+      "default": "America/New_York"
+    },
+    "dateFormat": {
+      "type": "string",
+      "default": "MM/DD/YYYY"
+    },
+    "units": {
+      "type": "json",
+      "default": {
+        "weight": ["kg", "g", "lb", "oz"],
+        "length": ["m", "cm", "ft", "in"],
+        "volume": ["L", "ml", "gal", "qt"]
+      }
+    },
+    "taxRate": {
+      "type": "decimal",
+      "default": 0
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "companyPhone": {
+      "type": "string"
+    },
+    "companyEmail": {
+      "type": "email"
+    }
+  }
+}

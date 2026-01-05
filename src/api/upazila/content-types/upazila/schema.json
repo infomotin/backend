@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "upazilas",
+  "info": {
+    "singularName": "upazila",
+    "pluralName": "upazilas",
+    "displayName": "Upazila",
+    "description": "Upazilas under Districts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "bnName": {
+      "type": "string"
+    },
+    "district": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::district.district",
+      "inversedBy": "upazilas"
+    },
+    "ward": {
+      "type": "string"
+    }
+  }
+}

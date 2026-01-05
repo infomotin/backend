@@ -480,6 +480,74 @@ export interface ApiChartOfAccountChartOfAccount
   };
 }
 
+export interface ApiCityCorporationCityCorporation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'city_corporations';
+  info: {
+    description: 'City Corporations under Districts';
+    displayName: 'City Corporation';
+    pluralName: 'city-corporations';
+    singularName: 'city-corporation';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bnName: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    district: Schema.Attribute.Relation<'manyToOne', 'api::district.district'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::city-corporation.city-corporation'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zones: Schema.Attribute.Relation<'oneToMany', 'api::zone.zone'>;
+  };
+}
+
+export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
+  collectionName: 'countries';
+  info: {
+    description: 'Countries for address management';
+    displayName: 'Country';
+    pluralName: 'countries';
+    singularName: 'country';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    divisions: Schema.Attribute.Relation<'oneToMany', 'api::division.division'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::country.country'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
   collectionName: 'customers';
   info: {
@@ -521,6 +589,146 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDistrictDistrict extends Struct.CollectionTypeSchema {
+  collectionName: 'districts';
+  info: {
+    description: 'Districts under Divisions';
+    displayName: 'District';
+    pluralName: 'districts';
+    singularName: 'district';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bnName: Schema.Attribute.String;
+    cityCorporations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::city-corporation.city-corporation'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    division: Schema.Attribute.Relation<'manyToOne', 'api::division.division'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::district.district'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    upazilas: Schema.Attribute.Relation<'oneToMany', 'api::upazila.upazila'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDivisionDivision extends Struct.CollectionTypeSchema {
+  collectionName: 'divisions';
+  info: {
+    description: 'Administrative divisions (e.g., Dhaka, Chittagong)';
+    displayName: 'Division';
+    pluralName: 'divisions';
+    singularName: 'division';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bnName: Schema.Attribute.String;
+    country: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    districts: Schema.Attribute.Relation<'oneToMany', 'api::district.district'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::division.division'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiJournalEntryJournalEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'journal_entries';
+  info: {
+    description: 'General Ledger Journal Entries for Double Entry Accounting';
+    displayName: 'Journal Entry';
+    pluralName: 'journal-entries';
+    singularName: 'journal-entry';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    details: Schema.Attribute.Component<'finance.journal-item', true>;
+    entryDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    isAutoGenerated: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journal-entry.journal-entry'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    reference: Schema.Attribute.String;
+    totalCredit: Schema.Attribute.Decimal;
+    totalDebit: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProductAttributeProductAttribute
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_attributes';
+  info: {
+    description: 'Product attributes like Size, Color, Material';
+    displayName: 'Product Attribute';
+    pluralName: 'product-attributes';
+    singularName: 'product-attribute';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-attribute.product-attribute'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    type: Schema.Attribute.Enumeration<
+      ['Size', 'Color', 'Material', 'Custom']
+    > &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    values: Schema.Attribute.JSON;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -534,10 +742,13 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
   attributes: {
     alertLevel: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<10>;
+    attributes: Schema.Attribute.JSON;
     costPrice: Schema.Attribute.Decimal & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -682,6 +893,133 @@ export interface ApiSupplierSupplier extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSystemSettingSystemSetting extends Struct.SingleTypeSchema {
+  collectionName: 'system_settings';
+  info: {
+    description: 'Global application settings and configuration';
+    displayName: 'System Settings';
+    pluralName: 'system-settings';
+    singularName: 'system-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    address1: Schema.Attribute.String;
+    address2: Schema.Attribute.String;
+    cityCorporation: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::city-corporation.city-corporation'
+    >;
+    companyEmail: Schema.Attribute.Email;
+    companyName: Schema.Attribute.String;
+    companyPhone: Schema.Attribute.String;
+    country: Schema.Attribute.Relation<'oneToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.String & Schema.Attribute.DefaultTo<'USD'>;
+    currencySymbol: Schema.Attribute.String & Schema.Attribute.DefaultTo<'$'>;
+    dateFormat: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'MM/DD/YYYY'>;
+    district: Schema.Attribute.Relation<'oneToOne', 'api::district.district'>;
+    division: Schema.Attribute.Relation<'oneToOne', 'api::division.division'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::system-setting.system-setting'
+    > &
+      Schema.Attribute.Private;
+    primaryColor: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'#6366f1'>;
+    publishedAt: Schema.Attribute.DateTime;
+    secondaryColor: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'#8b5cf6'>;
+    siteIcon: Schema.Attribute.Media<'images'>;
+    siteLogo: Schema.Attribute.Media<'images'>;
+    siteName: Schema.Attribute.String & Schema.Attribute.DefaultTo<'RefuelOS'>;
+    taxRate: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    timezone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'America/New_York'>;
+    units: Schema.Attribute.JSON &
+      Schema.Attribute.DefaultTo<{
+        length: ['m', 'cm', 'ft', 'in'];
+        volume: ['L', 'ml', 'gal', 'qt'];
+        weight: ['kg', 'g', 'lb', 'oz'];
+      }>;
+    upazila: Schema.Attribute.Relation<'oneToOne', 'api::upazila.upazila'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zipCode: Schema.Attribute.String;
+    zone: Schema.Attribute.Relation<'oneToOne', 'api::zone.zone'>;
+  };
+}
+
+export interface ApiUpazilaUpazila extends Struct.CollectionTypeSchema {
+  collectionName: 'upazilas';
+  info: {
+    description: 'Upazilas under Districts';
+    displayName: 'Upazila';
+    pluralName: 'upazilas';
+    singularName: 'upazila';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bnName: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    district: Schema.Attribute.Relation<'manyToOne', 'api::district.district'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::upazila.upazila'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ward: Schema.Attribute.String;
+  };
+}
+
+export interface ApiZoneZone extends Struct.CollectionTypeSchema {
+  collectionName: 'zones';
+  info: {
+    description: 'Zones under City Corporations';
+    displayName: 'Zone';
+    pluralName: 'zones';
+    singularName: 'zone';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bnName: Schema.Attribute.String;
+    cityCorporation: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::city-corporation.city-corporation'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::zone.zone'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ward: Schema.Attribute.String;
   };
 }
 
@@ -1196,11 +1534,20 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::chart-of-account.chart-of-account': ApiChartOfAccountChartOfAccount;
+      'api::city-corporation.city-corporation': ApiCityCorporationCityCorporation;
+      'api::country.country': ApiCountryCountry;
       'api::customer.customer': ApiCustomerCustomer;
+      'api::district.district': ApiDistrictDistrict;
+      'api::division.division': ApiDivisionDivision;
+      'api::journal-entry.journal-entry': ApiJournalEntryJournalEntry;
+      'api::product-attribute.product-attribute': ApiProductAttributeProductAttribute;
       'api::product.product': ApiProductProduct;
       'api::requisition.requisition': ApiRequisitionRequisition;
       'api::sale.sale': ApiSaleSale;
       'api::supplier.supplier': ApiSupplierSupplier;
+      'api::system-setting.system-setting': ApiSystemSettingSystemSetting;
+      'api::upazila.upazila': ApiUpazilaUpazila;
+      'api::zone.zone': ApiZoneZone;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

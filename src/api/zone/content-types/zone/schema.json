@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "zones",
+  "info": {
+    "singularName": "zone",
+    "pluralName": "zones",
+    "displayName": "Zone",
+    "description": "Zones under City Corporations"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "bnName": {
+      "type": "string"
+    },
+    "cityCorporation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::city-corporation.city-corporation",
+      "inversedBy": "zones"
+    },
+    "ward": {
+      "type": "string"
+    }
+  }
+}

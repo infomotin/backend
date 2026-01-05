@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_finance_journal_items",
+  "info": {
+    "displayName": "Journal Item",
+    "description": "Individual line item for a journal entry"
+  },
+  "options": {},
+  "attributes": {
+    "account": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::chart-of-account.chart-of-account"
+    },
+    "debit": {
+      "type": "decimal",
+      "default": 0
+    },
+    "credit": {
+      "type": "decimal",
+      "default": 0
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

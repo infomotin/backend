@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "districts",
+  "info": {
+    "singularName": "district",
+    "pluralName": "districts",
+    "displayName": "District",
+    "description": "Districts under Divisions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "bnName": {
+      "type": "string"
+    },
+    "division": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::division.division",
+      "inversedBy": "districts"
+    },
+    "upazilas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::upazila.upazila",
+      "mappedBy": "district"
+    },
+    "cityCorporations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::city-corporation.city-corporation",
+      "mappedBy": "district"
+    }
+  }
+}
