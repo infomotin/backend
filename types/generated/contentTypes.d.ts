@@ -948,6 +948,7 @@ export interface ApiProductManufacturerProductManufacturer
       'api::product-manufacturer.product-manufacturer'
     > &
       Schema.Attribute.Private;
+    logo: Schema.Attribute.Media<'images'>;
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -1018,6 +1019,7 @@ export interface ApiProductVariantProductVariant
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     expiryDate: Schema.Attribute.Date;
+    images: Schema.Attribute.Media<'images' | 'videos', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

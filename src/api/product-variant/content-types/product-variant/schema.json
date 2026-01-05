@@ -52,6 +52,11 @@
       "type": "json",
       "description": "General attributes like Color, Size"
     },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images", "videos"]
+    },
     "product": {
       "type": "relation",
       "relation": "manyToOne",

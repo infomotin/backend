@@ -25,6 +25,11 @@
     "email": {
       "type": "email"
     },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
     "products": {
       "type": "relation",
       "relation": "oneToMany",
