@@ -785,9 +785,17 @@ export interface ApiProductAttributeProductAttribute
     draftAndPublish: false;
   };
   attributes: {
+    categories: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::product-category.product-category'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    inputType: Schema.Attribute.Enumeration<
+      ['Text', 'Number', 'Date', 'Select', 'Boolean']
+    > &
+      Schema.Attribute.DefaultTo<'Text'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -796,14 +804,45 @@ export interface ApiProductAttributeProductAttribute
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<
-      ['Size', 'Color', 'Material', 'Custom']
-    > &
-      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     values: Schema.Attribute.JSON;
+  };
+}
+
+export interface ApiProductBrandProductBrand
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_brands';
+  info: {
+    description: 'Product brands like Samsung, Apple, Square';
+    displayName: 'Product Brand';
+    pluralName: 'product-brands';
+    singularName: 'product-brand';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-brand.product-brand'
+    > &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.Media<'images'>;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -820,6 +859,10 @@ export interface ApiProductCategoryProductCategory
     draftAndPublish: false;
   };
   attributes: {
+    attributes: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::product-attribute.product-attribute'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -880,6 +923,42 @@ export interface ApiProductChildCategoryProductChildCategory
   };
 }
 
+export interface ApiProductManufacturerProductManufacturer
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_manufacturers';
+  info: {
+    description: 'Product manufacturers';
+    displayName: 'Product Manufacturer';
+    pluralName: 'product-manufacturers';
+    singularName: 'product-manufacturer';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    address: Schema.Attribute.Text;
+    contactNumber: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-manufacturer.product-manufacturer'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductSubCategoryProductSubCategory
   extends Struct.CollectionTypeSchema {
   collectionName: 'product_sub_categories';
@@ -919,6 +998,50 @@ export interface ApiProductSubCategoryProductSubCategory
   };
 }
 
+export interface ApiProductVariantProductVariant
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_variants';
+  info: {
+    description: 'Specific combinations of product attributes with unique price and stock';
+    displayName: 'Product Variant';
+    pluralName: 'product-variants';
+    singularName: 'product-variant';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    attributeValues: Schema.Attribute.JSON;
+    batchNumber: Schema.Attribute.String;
+    costPrice: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    expiryDate: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-variant.product-variant'
+    > &
+      Schema.Attribute.Private;
+    manufactureDate: Schema.Attribute.Date;
+    price: Schema.Attribute.Decimal;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    sellingDate: Schema.Attribute.Date;
+    serialNumber: Schema.Attribute.String;
+    sku: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    stockQuantity: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    variantName: Schema.Attribute.String & Schema.Attribute.Required;
+    warrantyPeriod: Schema.Attribute.String;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -936,6 +1059,10 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     baseUnit: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Pcs'>;
+    brand: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-brand.product-brand'
+    >;
     category: Schema.Attribute.Relation<
       'manyToOne',
       'api::product-category.product-category'
@@ -956,6 +1083,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'api::product.product'
     > &
       Schema.Attribute.Private;
+    manufacturer: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-manufacturer.product-manufacturer'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     purchaseToSaleFactor: Schema.Attribute.Decimal &
       Schema.Attribute.DefaultTo<1>;
@@ -963,6 +1095,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     saleToBaseFactor: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<1>;
     saleUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Pcs'>;
     sellingPrice: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    sku: Schema.Attribute.String & Schema.Attribute.Unique;
     stockQuantity: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
     subCategory: Schema.Attribute.Relation<
       'manyToOne',
@@ -973,6 +1106,10 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    variants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-variant.product-variant'
+    >;
   };
 }
 
@@ -1794,9 +1931,12 @@ declare module '@strapi/strapi' {
       'api::division.division': ApiDivisionDivision;
       'api::journal-entry.journal-entry': ApiJournalEntryJournalEntry;
       'api::product-attribute.product-attribute': ApiProductAttributeProductAttribute;
+      'api::product-brand.product-brand': ApiProductBrandProductBrand;
       'api::product-category.product-category': ApiProductCategoryProductCategory;
       'api::product-child-category.product-child-category': ApiProductChildCategoryProductChildCategory;
+      'api::product-manufacturer.product-manufacturer': ApiProductManufacturerProductManufacturer;
       'api::product-sub-category.product-sub-category': ApiProductSubCategoryProductSubCategory;
+      'api::product-variant.product-variant': ApiProductVariantProductVariant;
       'api::product.product': ApiProductProduct;
       'api::requisition.requisition': ApiRequisitionRequisition;
       'api::sale.sale': ApiSaleSale;

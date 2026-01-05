@@ -19,6 +19,12 @@
     "description": {
       "type": "text"
     },
+    "attributes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-attribute.product-attribute",
+      "mappedBy": "categories"
+    },
     "subCategories": {
       "type": "relation",
       "relation": "oneToMany",

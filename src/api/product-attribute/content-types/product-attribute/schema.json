@@ -15,14 +15,20 @@
       "type": "string",
       "required": true
     },
-    "type": {
+    "inputType": {
       "type": "enumeration",
-      "enum": ["Size", "Color", "Material", "Custom"],
-      "required": true
+      "enum": ["Text", "Number", "Date", "Select", "Boolean"],
+      "default": "Text"
     },
     "values": {
       "type": "json",
-      "description": "Array of possible values"
+      "description": "Array of possible values for Select type"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-category.product-category",
+      "inversedBy": "attributes"
     }
   }
 }

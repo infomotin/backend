@@ -79,6 +79,12 @@
       "type": "decimal",
       "default": 0
     },
+    "variants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-variant.product-variant",
+      "mappedBy": "product"
+    },
     "supplier": {
       "type": "relation",
       "relation": "manyToOne",
@@ -90,6 +96,18 @@
     "attributes": {
       "type": "json",
       "description": "Dynamic attributes like Color, Brand, RAM, etc."
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-brand.product-brand",
+      "inversedBy": "products"
+    },
+    "manufacturer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-manufacturer.product-manufacturer",
+      "inversedBy": "products"
     },
     "image": {
       "type": "media",

@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_brands",
+  "info": {
+    "singularName": "product-brand",
+    "pluralName": "product-brands",
+    "displayName": "Product Brand",
+    "description": "Product brands like Samsung, Apple, Square"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "brand"
+    }
+  }
+}

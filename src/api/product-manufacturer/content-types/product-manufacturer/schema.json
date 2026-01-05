@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_manufacturers",
+  "info": {
+    "singularName": "product-manufacturer",
+    "pluralName": "product-manufacturers",
+    "displayName": "Product Manufacturer",
+    "description": "Product manufacturers"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "address": {
+      "type": "text"
+    },
+    "contactNumber": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "manufacturer"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_variants",
+  "info": {
+    "singularName": "product-variant",
+    "pluralName": "product-variants",
+    "displayName": "Product Variant",
+    "description": "Specific combinations of product attributes with unique price and stock"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "variantName": {
+      "type": "string",
+      "required": true
+    },
+    "sku": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "costPrice": {
+      "type": "decimal"
+    },
+    "stockQuantity": {
+      "type": "decimal",
+      "default": 0
+    },
+    "batchNumber": {
+      "type": "string"
+    },
+    "manufactureDate": {
+      "type": "date"
+    },
+    "expiryDate": {
+      "type": "date"
+    },
+    "serialNumber": {
+      "type": "string"
+    },
+    "warrantyPeriod": {
+      "type": "string"
+    },
+    "sellingDate": {
+      "type": "date"
+    },
+    "attributeValues": {
+      "type": "json",
+      "description": "General attributes like Color, Size"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "variants"
+    }
+  }
+}
