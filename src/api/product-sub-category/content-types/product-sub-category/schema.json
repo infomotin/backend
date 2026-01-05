@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_sub_categories",
+  "info": {
+    "singularName": "product-sub-category",
+    "pluralName": "product-sub-categories",
+    "displayName": "Product Sub-Category",
+    "description": "Secondary product categories (e.g. Tablet, Laptop)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-category.product-category",
+      "inversedBy": "subCategories"
+    },
+    "childCategories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-child-category.product-child-category",
+      "mappedBy": "subCategory"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "subCategory"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_child_categories",
+  "info": {
+    "singularName": "product-child-category",
+    "pluralName": "product-child-categories",
+    "displayName": "Product Child-Category",
+    "description": "Deepest level of product categorization (e.g. Strip/Box for medicine, Brand for electronics)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "subCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-sub-category.product-sub-category",
+      "inversedBy": "childCategories"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "childCategory"
+    }
+  }
+}

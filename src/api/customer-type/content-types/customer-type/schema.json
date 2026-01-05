@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "customer_types",
+  "info": {
+    "singularName": "customer-type",
+    "pluralName": "customer-types",
+    "displayName": "Customer Type",
+    "description": "Dynamic categories for customers with loyalty settings"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "eligibleForCoins": {
+      "type": "boolean",
+      "default": false
+    },
+    "customers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::customer.customer",
+      "mappedBy": "customerCategory"
+    }
+  }
+}

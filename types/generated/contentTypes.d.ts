@@ -513,6 +513,36 @@ export interface ApiCityCorporationCityCorporation
   };
 }
 
+export interface ApiCoinWalletCoinWallet extends Struct.CollectionTypeSchema {
+  collectionName: 'coin_wallets';
+  info: {
+    description: 'Tracks customer loyalty coins';
+    displayName: 'Coin Wallet';
+    pluralName: 'coin-wallets';
+    singularName: 'coin-wallet';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    balance: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customer: Schema.Attribute.Relation<'oneToOne', 'api::customer.customer'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::coin-wallet.coin-wallet'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
   collectionName: 'countries';
   info: {
@@ -548,6 +578,41 @@ export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCustomerTypeCustomerType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'customer_types';
+  info: {
+    description: 'Dynamic categories for customers with loyalty settings';
+    displayName: 'Customer Type';
+    pluralName: 'customer-types';
+    singularName: 'customer-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customers: Schema.Attribute.Relation<'oneToMany', 'api::customer.customer'>;
+    eligibleForCoins: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::customer-type.customer-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
   collectionName: 'customers';
   info: {
@@ -565,16 +630,20 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
       'oneToOne',
       'api::city-corporation.city-corporation'
     >;
+    coinWallet: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::coin-wallet.coin-wallet'
+    >;
     country: Schema.Attribute.Relation<'oneToOne', 'api::country.country'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     creditLimit: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
     currentBalance: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
-    customerType: Schema.Attribute.Enumeration<
-      ['Retail', 'Corporate', 'Government']
-    > &
-      Schema.Attribute.DefaultTo<'Retail'>;
+    customerCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::customer-type.customer-type'
+    >;
     district: Schema.Attribute.Relation<'oneToOne', 'api::district.district'>;
     division: Schema.Attribute.Relation<'oneToOne', 'api::division.division'>;
     email: Schema.Attribute.Email;
@@ -738,6 +807,118 @@ export interface ApiProductAttributeProductAttribute
   };
 }
 
+export interface ApiProductCategoryProductCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_categories';
+  info: {
+    description: 'Main product categories (e.g. Medicine, Electronics)';
+    displayName: 'Product Category';
+    pluralName: 'product-categories';
+    singularName: 'product-category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-category.product-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    subCategories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-sub-category.product-sub-category'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProductChildCategoryProductChildCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_child_categories';
+  info: {
+    description: 'Deepest level of product categorization (e.g. Strip/Box for medicine, Brand for electronics)';
+    displayName: 'Product Child-Category';
+    pluralName: 'product-child-categories';
+    singularName: 'product-child-category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-child-category.product-child-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    subCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-sub-category.product-sub-category'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProductSubCategoryProductSubCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_sub_categories';
+  info: {
+    description: 'Secondary product categories (e.g. Tablet, Laptop)';
+    displayName: 'Product Sub-Category';
+    pluralName: 'product-sub-categories';
+    singularName: 'product-sub-category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-category.product-category'
+    >;
+    childCategories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-child-category.product-child-category'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-sub-category.product-sub-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -752,6 +933,17 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   attributes: {
     alertLevel: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<10>;
     attributes: Schema.Attribute.JSON;
+    baseUnit: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Pcs'>;
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-category.product-category'
+    >;
+    childCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-child-category.product-child-category'
+    >;
     costPrice: Schema.Attribute.Decimal & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -764,16 +956,20 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'api::product.product'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    purchaseToSaleFactor: Schema.Attribute.Decimal &
+      Schema.Attribute.DefaultTo<1>;
+    purchaseUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Pcs'>;
+    saleToBaseFactor: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<1>;
+    saleUnit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Pcs'>;
     sellingPrice: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    sku: Schema.Attribute.String & Schema.Attribute.Unique;
     stockQuantity: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    subCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::product-sub-category.product-sub-category'
+    >;
     supplier: Schema.Attribute.Relation<'manyToOne', 'api::supplier.supplier'>;
     taxRate: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
-    type: Schema.Attribute.Enumeration<['Fuel', 'Lube', 'Service', 'General']> &
-      Schema.Attribute.DefaultTo<'General'>;
-    unit: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Liters'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1590,12 +1786,17 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::chart-of-account.chart-of-account': ApiChartOfAccountChartOfAccount;
       'api::city-corporation.city-corporation': ApiCityCorporationCityCorporation;
+      'api::coin-wallet.coin-wallet': ApiCoinWalletCoinWallet;
       'api::country.country': ApiCountryCountry;
+      'api::customer-type.customer-type': ApiCustomerTypeCustomerType;
       'api::customer.customer': ApiCustomerCustomer;
       'api::district.district': ApiDistrictDistrict;
       'api::division.division': ApiDivisionDivision;
       'api::journal-entry.journal-entry': ApiJournalEntryJournalEntry;
       'api::product-attribute.product-attribute': ApiProductAttributeProductAttribute;
+      'api::product-category.product-category': ApiProductCategoryProductCategory;
+      'api::product-child-category.product-child-category': ApiProductChildCategoryProductChildCategory;
+      'api::product-sub-category.product-sub-category': ApiProductSubCategoryProductSubCategory;
       'api::product.product': ApiProductProduct;
       'api::requisition.requisition': ApiRequisitionRequisition;
       'api::sale.sale': ApiSaleSale;

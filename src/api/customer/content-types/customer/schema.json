@@ -56,10 +56,17 @@
       "relation": "oneToOne",
       "target": "api::zone.zone"
     },
-    "customerType": {
-      "type": "enumeration",
-      "enum": ["Retail", "Corporate", "Government"],
-      "default": "Retail"
+    "customerCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer-type.customer-type",
+      "inversedBy": "customers"
+    },
+    "coinWallet": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coin-wallet.coin-wallet",
+      "mappedBy": "customer"
     },
     "creditLimit": {
       "type": "decimal",

@@ -19,14 +19,44 @@
       "type": "string",
       "unique": true
     },
-    "type": {
-      "type": "enumeration",
-      "enum": ["Fuel", "Lube", "Service", "General"],
-      "default": "General"
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-category.product-category",
+      "inversedBy": "products"
     },
-    "unit": {
+    "subCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-sub-category.product-sub-category",
+      "inversedBy": "products"
+    },
+    "childCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-child-category.product-child-category",
+      "inversedBy": "products"
+    },
+    "baseUnit": {
       "type": "string",
-      "default": "Liters"
+      "required": true,
+      "default": "Pcs"
+    },
+    "purchaseUnit": {
+      "type": "string",
+      "default": "Pcs"
+    },
+    "saleUnit": {
+      "type": "string",
+      "default": "Pcs"
+    },
+    "purchaseToSaleFactor": {
+      "type": "decimal",
+      "default": 1
+    },
+    "saleToBaseFactor": {
+      "type": "decimal",
+      "default": 1
     },
     "costPrice": {
       "type": "decimal",
@@ -38,7 +68,8 @@
     },
     "stockQuantity": {
       "type": "decimal",
-      "default": 0
+      "default": 0,
+      "description": "Total stock in base units"
     },
     "alertLevel": {
       "type": "integer",
@@ -58,7 +89,7 @@
     },
     "attributes": {
       "type": "json",
-      "description": "Product variant attributes (size, color, etc.)"
+      "description": "Dynamic attributes like Color, Brand, RAM, etc."
     },
     "image": {
       "type": "media",
