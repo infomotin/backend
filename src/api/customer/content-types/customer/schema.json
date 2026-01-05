@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "customers",
+  "info": {
+    "singularName": "customer",
+    "pluralName": "customers",
+    "displayName": "Customer",
+    "description": "Customer Profiles"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "address": {
+      "type": "text"
+    },
+    "customerType": {
+      "type": "enumeration",
+      "enum": ["Retail", "Corporate", "Government"],
+      "default": "Retail"
+    },
+    "creditLimit": {
+      "type": "decimal",
+      "default": 0
+    },
+    "currentBalance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "sales": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sale.sale",
+      "mappedBy": "customer"
+    }
+  }
+}

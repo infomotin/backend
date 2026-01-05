@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chart_of_accounts",
+  "info": {
+    "singularName": "chart-of-account",
+    "pluralName": "chart-of-accounts",
+    "displayName": "Chart of Account",
+    "description": "General Ledger Chart of Accounts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["Asset", "Liability", "Equity", "Revenue", "Expense"],
+      "required": true
+    },
+    "classification": {
+      "type": "enumeration",
+      "enum": ["Current", "Non-Current", "Operating", "Non-Operating"]
+    },
+    "openingBalance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "currentBalance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chart-of-account.chart-of-account",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chart-of-account.chart-of-account",
+      "mappedBy": "parent"
+    }
+  }
+}

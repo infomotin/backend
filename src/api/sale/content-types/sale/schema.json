@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sales",
+  "info": {
+    "singularName": "sale",
+    "pluralName": "sales",
+    "displayName": "Sale",
+    "description": "Sales Transactions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "invoiceNo": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer.customer",
+      "inversedBy": "sales"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sales.sales-item"
+    },
+    "subTotal": {
+      "type": "decimal"
+    },
+    "taxTotal": {
+      "type": "decimal"
+    },
+    "discountTotal": {
+      "type": "decimal"
+    },
+    "grandTotal": {
+      "type": "decimal",
+      "required": true
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["Cash", "Card", "Credit", "Bank Transfer"]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["Pending", "Completed", "Cancelled"],
+      "default": "Completed"
+    }
+  }
+}

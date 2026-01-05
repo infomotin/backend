@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": "Inventory Items (Fuel, Lubes, Goods)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "sku": {
+      "type": "string",
+      "unique": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["Fuel", "Lube", "Service", "General"],
+      "default": "General"
+    },
+    "unit": {
+      "type": "string",
+      "default": "Liters"
+    },
+    "costPrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "sellingPrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "stockQuantity": {
+      "type": "decimal",
+      "default": 0
+    },
+    "alertLevel": {
+      "type": "integer",
+      "default": 10
+    },
+    "taxRate": {
+      "type": "decimal",
+      "default": 0
+    },
+    "supplier": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::supplier.supplier"
+    }
+  }
+}

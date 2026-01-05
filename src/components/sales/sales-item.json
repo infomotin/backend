@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_sales_sales_items",
+  "info": {
+    "displayName": "Sales Item",
+    "icon": "shopping-basket"
+  },
+  "options": {},
+  "attributes": {
+    "product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    },
+    "quantity": {
+      "type": "decimal",
+      "required": true
+    },
+    "unitPrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "discount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "total": {
+      "type": "decimal",
+      "required": true
+    }
+  }
+}

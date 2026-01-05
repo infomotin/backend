@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "requisitions",
+  "info": {
+    "singularName": "requisition",
+    "pluralName": "requisitions",
+    "displayName": "Requisition",
+    "description": "Internal Requisition Requests"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "requisitionNo": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "requestDate": {
+      "type": "date",
+      "required": true
+    },
+    "requestedBy": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "department": {
+      "type": "enumeration",
+      "enum": ["Sales", "HR", "Logistics", "Admin"]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Draft",
+        "Pending Approval",
+        "Approved",
+        "Rejected",
+        "Fulfilled"
+      ],
+      "default": "Draft"
+    },
+    "items": {
+      "type": "json",
+      "description": "List of items requested (Product ID, Qty)"
+    },
+    "approvalDate": {
+      "type": "date"
+    },
+    "approvedBy": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
