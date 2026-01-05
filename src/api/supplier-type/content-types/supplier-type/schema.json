@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "supplier_types",
+  "info": {
+    "singularName": "supplier-type",
+    "pluralName": "supplier-types",
+    "displayName": "Supplier Type",
+    "description": "Dynamic categories for suppliers"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "suppliers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::supplier.supplier",
+      "mappedBy": "supplierCategory"
+    }
+  }
+}

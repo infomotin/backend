@@ -24,14 +24,50 @@
     "phone": {
       "type": "string"
     },
-    "address": {
+    "addressLine": {
       "type": "text"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::country.country"
+    },
+    "division": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::division.division"
+    },
+    "district": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::district.district"
+    },
+    "upazila": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::upazila.upazila"
+    },
+    "cityCorporation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::city-corporation.city-corporation"
+    },
+    "zone": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::zone.zone"
     },
     "products": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::product.product",
       "mappedBy": "supplier"
+    },
+    "supplierCategory": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::supplier-type.supplier-type",
+      "inversedBy": "suppliers"
     }
   }
 }

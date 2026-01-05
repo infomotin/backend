@@ -560,7 +560,12 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    address: Schema.Attribute.Text;
+    addressLine: Schema.Attribute.Text;
+    cityCorporation: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::city-corporation.city-corporation'
+    >;
+    country: Schema.Attribute.Relation<'oneToOne', 'api::country.country'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -570,6 +575,8 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
       ['Retail', 'Corporate', 'Government']
     > &
       Schema.Attribute.DefaultTo<'Retail'>;
+    district: Schema.Attribute.Relation<'oneToOne', 'api::district.district'>;
+    division: Schema.Attribute.Relation<'oneToOne', 'api::division.division'>;
     email: Schema.Attribute.Email;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -583,9 +590,11 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
     sales: Schema.Attribute.Relation<'oneToMany', 'api::sale.sale'>;
+    upazila: Schema.Attribute.Relation<'oneToOne', 'api::upazila.upazila'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    zone: Schema.Attribute.Relation<'oneToOne', 'api::zone.zone'>;
   };
 }
 
@@ -862,6 +871,39 @@ export interface ApiSaleSale extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSupplierTypeSupplierType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'supplier_types';
+  info: {
+    description: 'Dynamic categories for suppliers';
+    displayName: 'Supplier Type';
+    pluralName: 'supplier-types';
+    singularName: 'supplier-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::supplier-type.supplier-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    suppliers: Schema.Attribute.Relation<'oneToMany', 'api::supplier.supplier'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSupplierSupplier extends Struct.CollectionTypeSchema {
   collectionName: 'suppliers';
   info: {
@@ -874,11 +916,18 @@ export interface ApiSupplierSupplier extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    address: Schema.Attribute.Text;
+    addressLine: Schema.Attribute.Text;
+    cityCorporation: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::city-corporation.city-corporation'
+    >;
     contactPerson: Schema.Attribute.String;
+    country: Schema.Attribute.Relation<'oneToOne', 'api::country.country'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    district: Schema.Attribute.Relation<'oneToOne', 'api::district.district'>;
+    division: Schema.Attribute.Relation<'oneToOne', 'api::division.division'>;
     email: Schema.Attribute.Email;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -890,9 +939,15 @@ export interface ApiSupplierSupplier extends Struct.CollectionTypeSchema {
     phone: Schema.Attribute.String;
     products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
+    supplierCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::supplier-type.supplier-type'
+    >;
+    upazila: Schema.Attribute.Relation<'oneToOne', 'api::upazila.upazila'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    zone: Schema.Attribute.Relation<'oneToOne', 'api::zone.zone'>;
   };
 }
 
@@ -1544,6 +1599,7 @@ declare module '@strapi/strapi' {
       'api::product.product': ApiProductProduct;
       'api::requisition.requisition': ApiRequisitionRequisition;
       'api::sale.sale': ApiSaleSale;
+      'api::supplier-type.supplier-type': ApiSupplierTypeSupplierType;
       'api::supplier.supplier': ApiSupplierSupplier;
       'api::system-setting.system-setting': ApiSystemSettingSystemSetting;
       'api::upazila.upazila': ApiUpazilaUpazila;
